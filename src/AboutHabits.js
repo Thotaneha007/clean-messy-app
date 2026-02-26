@@ -14,7 +14,7 @@ class AboutHabits extends Component {
 
           {/* WHY IT MATTERS */}
           <div className="section-box">
-            <div className="section-title">🌱 Why clean habits matter</div>
+            <div className="section-title"> Why clean habits matter</div>
             <ul style={{ textAlign: "left", lineHeight: "1.6" }}>
               <li>Helps children feel calm and organized</li>
               <li>Reduces sensory overload and confusion</li>
@@ -24,7 +24,7 @@ class AboutHabits extends Component {
 
           {/* HOW THE APP HELPS */}
           <div className="section-box">
-            <div className="section-title">🧠 How this activity helps</div>
+            <div className="section-title"> How this activity helps</div>
             <ul style={{ textAlign: "left", lineHeight: "1.6" }}>
               <li>Uses visual learning instead of long text</li>
               <li>Gives positive and gentle feedback</li>
@@ -34,7 +34,7 @@ class AboutHabits extends Component {
 
           {/* WHO CAN USE */}
           <div className="section-box">
-            <div className="section-title">👨‍👩‍👧 Who can use this application</div>
+            <div className="section-title"> Who can use this application</div>
             <ul style={{ textAlign: "left", lineHeight: "1.6" }}>
               <li>Children with Autism Spectrum Disorder</li>
               <li>Parents and caregivers</li>
@@ -50,7 +50,7 @@ class AboutHabits extends Component {
 
           {/* CLOSING MESSAGE */}
           <p className="calm-text">
-            🌱 Learning happens step by step. Take your time.
+             Learning happens step by step. Take your time.
           </p>
 
           <button

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import html2canvas from "html2canvas";
 
 /* Import images */
 import cleanRoom from "./assets/images/01_clean_room.jpg";
@@ -10,7 +12,8 @@ import messyClothes from "./assets/images/06_messy_clothes.png";
 import cleanPlate from "./assets/images/07_clean_plate.png";
 import dirtyPlate from "./assets/images/08_dirty_plate.png";
 
-function Game({ setPage, setScore }) {
+function Game({ setPage }) {
+
   const items = [
     { text: "The room is clean", answer: "clean", image: cleanRoom },
     { text: "The room is messy", answer: "messy", image: messyRoom },
@@ -23,37 +26,114 @@ function Game({ setPage, setScore }) {
   ];
 
   const [index, setIndex] = useState(0);
+  const [correct, setCorrect] = useState(0);
+  const [wrong, setWrong] = useState(0);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function choose(option) {
-    if (option === items[index].answer) {
-      setScore((prev) => prev + 1);
-      setMessage("⭐ Good job!");
+  const totalQuestions = items.length;
+  const cardRef = useRef(null);
 
-      setTimeout(() => {
-        setMessage("");
-        if (index === items.length - 1) {
-          setPage("result");
-        } else {
-          setIndex(index + 1);
+  /* ================= KEYBOARD SUPPORT ================= */
+  useEffect(() => {
+    function handleKey(e) {
+      if (e.key.toLowerCase() === "c") choose("clean");
+      if (e.key.toLowerCase() === "m") choose("messy");
+    }
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  });
+
+  /* ================= SAVE SESSION ================= */
+  async function saveSession(finalCorrect, finalWrong) {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      await axios.post(
+        "http://localhost:5000/api/progress/clean-messy",
+        {
+          correct: finalCorrect,
+          wrong: finalWrong,
+          totalQuestions
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
         }
-      }, 800);
-    } else {
-      setMessage("🙂 Try again");
+      );
+
+    } catch (error) {
+      console.log("Save Error:", error.response?.data);
     }
   }
 
+  /* ================= GAME LOGIC ================= */
+  function choose(option) {
+
+    const isCorrect = option === items[index].answer;
+
+    // Calculate updated values safely
+    const updatedCorrect = isCorrect ? correct + 1 : correct;
+    const updatedWrong = isCorrect ? wrong : wrong + 1;
+
+    setCorrect(updatedCorrect);
+    setWrong(updatedWrong);
+
+    setMessage(
+      isCorrect
+        ? "✅ Correct! Well done."
+        : "❌ That's okay. Let’s keep learning."
+    );
+
+    setTimeout(async () => {
+
+      setMessage("");
+
+      if (index === totalQuestions - 1) {
+
+        setLoading(true);
+
+        await saveSession(updatedCorrect, updatedWrong);
+
+        const accuracy = Math.round(
+          (updatedCorrect / totalQuestions) * 100
+        );
+
+        setPage("result", {
+          correct: updatedCorrect,
+          wrong: updatedWrong,
+          totalQuestions,
+          accuracy
+        });
+
+      } else {
+        setIndex(prev => prev + 1);
+      }
+
+    }, 800);
+  }
+
+  /* ================= SCREEN CAPTURE ================= */
+  async function captureScreen() {
+    if (!cardRef.current) return;
+
+    const canvas = await html2canvas(cardRef.current);
+    const link = document.createElement("a");
+    link.download = "clean-messy-session.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  }
+
+  /* ================= UI ================= */
   return (
     <div className="container">
-      <div className="card">
+      <div className="card" ref={cardRef}>
+
         <h2>Sorting Game</h2>
 
         <p className="subtitle">
-          Look at the picture and choose the correct option.
-        </p>
-
-        <p className="calm-text">
-          🧠 Today’s focus: Keeping things clean
+          Press C for Clean | M for Messy
         </p>
 
         <img
@@ -71,22 +151,37 @@ function Game({ setPage, setScore }) {
             className="clean-btn"
             onClick={() => choose("clean")}
           >
-            🧼 Clean
+            Clean (C)
           </button>
 
           <button
             className="messy-btn"
             onClick={() => choose("messy")}
           >
-            🗑️ Messy
+            Messy (M)
           </button>
         </div>
 
-        {message && <p className="message">{message}</p>}
+        {message && <div className="result-feedback">{message}</div>}
 
         <p className="subtitle">
-          Question {index + 1} of {items.length}
+          Question {index + 1} of {totalQuestions}
         </p>
+
+        <p className="calm-text">
+          Correct: {correct} | Wrong: {wrong}
+        </p>
+
+        {loading && (
+          <p className="calm-text">Saving session...</p>
+        )}
+
+        <div className="center-btn">
+          <button className="secondary-btn" onClick={captureScreen}>
+            📸 Capture Screen
+          </button>
+        </div>
+
       </div>
     </div>
   );

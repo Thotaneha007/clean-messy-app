@@ -4,6 +4,17 @@ function Home({ setPage }) {
   return (
     <div className="container">
       <div className="card">
+
+        {/* BACK BUTTON */}
+        <div className="top-nav">
+          <button
+            className="back-btn"
+            onClick={() => setPage("dashboard")}
+          >
+            ← Back to Dashboard
+          </button>
+        </div>
+
         {/* HEADER */}
         <h1>Clean or Messy</h1>
         <p className="subtitle">
@@ -23,27 +34,19 @@ function Home({ setPage }) {
           clean and messy situations using simple pictures.
         </p>
 
-        {/* WHAT WILL HAPPEN */}
-        <div className="section-box">
-          <div className="section-title">📘 What will happen here</div>
-          <ul style={{ textAlign: "left", lineHeight: "1.6", margin: 0 }}>
-            <li>Look at pictures and learn</li>
-            <li>Play a clean or messy activity</li>
-            <li>Practice good daily habits</li>
-          </ul>
-        </div>
+        
 
         {/* PRIMARY ACTIONS */}
         <div className="buttons">
           <button
-            className="clean-btn"
+            className="primary-btn"
             onClick={() => setPage("learn")}
           >
             Learn First
           </button>
 
           <button
-            className="messy-btn"
+            className="secondary-btn"
             onClick={() => setPage("game")}
           >
             Start Activity
@@ -51,8 +54,8 @@ function Home({ setPage }) {
         </div>
 
         {/* CALM NOTE */}
-        <p className="calm-text" style={{ marginTop: "16px" }}>
-          🌱 Take your time. There is no hurry.
+        <p className="calm-text">
+          Take your time. There is no hurry.
         </p>
 
         {/* SECONDARY ACTIONS */}
@@ -60,19 +63,20 @@ function Home({ setPage }) {
           <p className="subtitle">For parents & teachers</p>
 
           <button
-            className="clean-btn action-btn"
+            className="primary-btn action-btn"
             onClick={() => setPage("habit")}
           >
             Daily Habit Form
           </button>
 
           <button
-            className="messy-btn action-btn"
+            className="secondary-btn action-btn"
             onClick={() => setPage("about")}
           >
             About Clean Habits
           </button>
         </div>
+
       </div>
     </div>
   );
