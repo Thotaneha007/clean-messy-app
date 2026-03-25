@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 function Dashboard({ setPage }) {
 
@@ -53,152 +54,260 @@ function Dashboard({ setPage }) {
     return "💡 Keep Practicing";
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.95, y: 15 },
+    show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+  };
+
   return (
-    <div className="container">
-      <div className="card dashboard-card">
+    <div className="container" style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
+      <motion.div 
+        className="card dashboard-card"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        style={{ padding: '30px', borderRadius: '40px' }}
+      >
 
-        <h1>📊 Learning Dashboard</h1>
-        <p className="subtitle">
-          Structured progress and calm learning growth.
-        </p>
-
-        {/* ================= STREAK SECTION ================= */}
-        <div className="dashboard-box" style={{ textAlign: "center" }}>
-          <h3>🔥 Learning Streak</h3>
-          <h2>{streak.currentStreak || 0} Days</h2>
-          <p>Longest Streak: {streak.longestStreak || 0} Days</p>
+        {/* ================= HERO INTRO ================= */}
+        <div style={{ textAlign: 'center', marginBottom: '30px', width: '100%' }}>
+          <h1 style={{ 
+            background: 'linear-gradient(90deg, #4facfe, #00f2fe)', 
+            WebkitBackgroundClip: 'text', 
+            WebkitTextFillColor: 'transparent', 
+            fontSize: '2.4rem',
+            letterSpacing: '-1px',
+            marginBottom: '10px',
+            fontWeight: '900'
+          }}>
+            Autism Learning Portal
+          </h1>
+          <p className="subtitle" style={{ fontSize: '1.1rem', margin: '0 auto', color: 'var(--text-secondary)', fontWeight: 'bold', maxWidth: '500px' }}>
+            Structured visual growth and child-centric progress tracking.
+          </p>
         </div>
 
-        {/* ================= CLEAN CARD ================= */}
-        <div className="dashboard-box">
+        {/* ================= FULL WIDTH STREAK (FIXED OVERFLOW) ================= */}
+        <motion.div 
+          variants={itemVariants} 
+          className="dashboard-box" 
+          style={{ 
+            background: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)', 
+            textAlign: "center", 
+            padding: '25px 15px', 
+            borderRadius: '24px',
+            marginBottom: '30px',
+            boxShadow: '0 10px 30px rgba(161, 196, 253, 0.3)',
+            color: '#2c3e50',
+            border: '2px solid rgba(255,255,255,0.6)',
+            width: '100%',
+            maxWidth: '900px',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div style={{ fontSize: '1rem', fontWeight: '900', opacity: 0.9, letterSpacing: '1.5px' }}>🔥 CURRENT LEARNING STREAK</div>
+          <h2 style={{ fontSize: '3.2rem', margin: '10px 0', textShadow: '0 3px 10px rgba(0,0,0,0.1)', fontWeight: '900' }}>{streak.currentStreak || 0} Days</h2>
+          <div style={{ 
+            display: 'inline-block', 
+            background: 'white', 
+            padding: '10px 25px', 
+            borderRadius: '50px',
+            fontWeight: '900',
+            fontSize: '1rem',
+            color: '#4a90e2',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+          }}>
+            🏆 Personal Best: {streak.longestStreak || 0} Days
+          </div>
+        </motion.div>
 
-          <h3>🧹 Clean & Messy</h3>
+        {/* ================= MODERN GRID LAYOUT ================= */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '25px', marginBottom: '40px', maxWidth: '1000px', margin: '0 auto 40px auto' }}>
 
-          <div className="dashboard-stats">
-            <div>
-              <p>Total Attempts</p>
-              <h2>{clean.totalAttempts || 0}</h2>
+          {/* 🧹 CLEAN & MESSY BOX */}
+          <motion.div variants={itemVariants} className="dashboard-box" style={{ background: 'var(--card-bg)', backdropFilter: 'blur(16px)', border: '2px solid var(--border-color)', padding: '30px', borderRadius: '32px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#4facfe', fontSize: '1.6rem', marginTop: 0, fontWeight: '900' }}>🧹 Clean & Messy</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '25px' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2.8rem', fontWeight: '900', color: 'var(--text-primary)' }}>{clean.totalAttempts || 0}</div>
+                <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: '900', letterSpacing: '1px' }}>ATTEMPTS</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2.8rem', fontWeight: '900', color: '#00b894' }}>{clean.bestAccuracy || 0}%</div>
+                <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: '900', letterSpacing: '1px' }}>TOP SCORE</div>
+              </div>
+            </div>
+            
+            <div style={{ height: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', marginTop: '30px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+              <div style={{ height: '100%', width: `${clean.bestAccuracy || 0}%`, background: 'linear-gradient(90deg, #4facfe, #00f2fe)', transition: 'width 1.5s ease' }} />
             </div>
 
-            <div>
-              <p>Best Accuracy</p>
-              <h2>{clean.bestAccuracy || 0}%</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', marginTop: '30px', fontWeight: '900' }}>
+              <span style={{ color: '#4facfe' }}>🏅 {clean.badge || "Novice"}</span>
+              <span style={{ color: '#00b894' }}>{getPerformanceLabel(clean.bestAccuracy || 0)}</span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{ width: `${clean.bestAccuracy || 0}%` }}
-            />
-          </div>
-
-          <p style={{ marginTop: "8px" }}>
-            Last Accuracy: {clean.lastAccuracy || 0}%
-          </p>
-
-          <p>
-            Improvement: {clean.improvement > 0 ? "⬆ +" : ""}
-            {clean.improvement || 0}%
-          </p>
-
-          <p>
-            Badge: <strong>{clean.badge || "None"}</strong>
-          </p>
-
-          <p className="performance-label">
-            {getPerformanceLabel(clean.bestAccuracy || 0)}
-          </p>
-
-        </div>
-
-        {/* ================= MONEY CARD ================= */}
-        <div className="dashboard-box">
-
-          <h3>💰 Money Learning</h3>
-
-          <div className="dashboard-stats">
-            <div>
-              <p>Total Sessions</p>
-              <h2>{money.totalAttempts || 0}</h2>
+          {/* 💰 MONEY LEARNING BOX */}
+          <motion.div variants={itemVariants} className="dashboard-box" style={{ background: 'var(--card-bg)', backdropFilter: 'blur(16px)', border: '2px solid var(--border-color)', padding: '30px', borderRadius: '32px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#f6d365', fontSize: '1.6rem', marginTop: 0, fontWeight: '900' }}>🪙 Money Match</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '25px' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2.8rem', fontWeight: '900', color: 'var(--text-primary)' }}>{money.totalAttempts || 0}</div>
+                <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: '900', letterSpacing: '1px' }}>SESSIONS</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2.8rem', fontWeight: '900', color: '#00b894' }}>{money.bestAccuracy || 0}%</div>
+                <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: '900', letterSpacing: '1px' }}>TOP SCORE</div>
+              </div>
+            </div>
+            
+            <div style={{ height: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', marginTop: '30px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+              <div style={{ height: '100%', width: `${money.bestAccuracy || 0}%`, background: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)', transition: 'width 1.5s ease' }} />
             </div>
 
-            <div>
-              <p>Best Accuracy</p>
-              <h2>{money.bestAccuracy || 0}%</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', marginTop: '30px', fontWeight: '900' }}>
+              <span style={{ color: '#f6d365' }}>🏅 {money.badge || "Stable"}</span>
+              <span style={{ color: '#fda085' }}>{getPerformanceLabel(money.bestAccuracy || 0)}</span>
             </div>
-          </div>
-
-          <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{ width: `${money.bestAccuracy || 0}%` }}
-            />
-          </div>
-
-          <p style={{ marginTop: "8px" }}>
-            Last Accuracy: {money.lastAccuracy || 0}%
-          </p>
-
-          <p>
-            Improvement: {money.improvement > 0 ? "⬆ +" : ""}
-            {money.improvement || 0}%
-          </p>
-
-          <p>
-            Badge: <strong>{money.badge || "None"}</strong>
-          </p>
-
-          <p className="performance-label">
-            {getPerformanceLabel(money.bestAccuracy || 0)}
-          </p>
+          </motion.div>
 
         </div>
 
         {/* ================= ACTION BUTTONS ================= */}
-        <div className="dashboard-buttons">
-
-          <button
-            className="primary-btn"
+        <h3 style={{ marginTop: '20px', marginBottom: '25px', textAlign: 'center', color: 'var(--text-primary)', fontSize: '1.8rem', fontWeight: '900' }}>🚀 Start Your Learning Session</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', maxWidth: '800px', margin: '0 auto 40px auto' }}>
+          
+          <motion.div
+            variants={itemVariants}
+            whileHover={{ scale: 1.05, filter: 'brightness(1.1)' }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => setPage("home")}
-          >
-            Open Clean & Messy
-          </button>
-
-          <button
-            className="primary-btn"
-            onClick={() => setPage("money")}
-          >
-            Open Money Learning
-          </button>
-
-          <button
-            className="secondary-btn"
-            onClick={() => setPage("activity")}
-          >
-            Manage Activities
-          </button>
-
-          <button
-            className="secondary-btn"
-            onClick={() => setPage("product")}
-          >
-            View Product Details
-          </button>
-
-          <button
-            className="secondary-btn"
-            onClick={() => {
-              localStorage.removeItem("token");
-              window.location.reload();
+            style={{
+              background: 'linear-gradient(135deg, #FF9A9E, #FECFEF)',
+              borderRadius: '24px',
+              padding: '30px',
+              cursor: 'pointer',
+              color: '#333',
+              boxShadow: '0 12px 30px rgba(255, 154, 158, 0.4)',
+              textAlign: 'center',
+              fontWeight: '900',
+              fontSize: '1.3rem'
             }}
           >
-            Logout
-          </button>
+            <div style={{ fontSize: '3.5rem', marginBottom: '15px' }}>🧹✨</div>
+            Play Clean & Messy
+          </motion.div>
+
+          <motion.div
+            variants={itemVariants}
+            whileHover={{ scale: 1.05, filter: 'brightness(1.1)' }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setPage("money")}
+            style={{
+              background: 'linear-gradient(135deg, #84FAB0, #8FD3F4)',
+              borderRadius: '24px',
+              padding: '30px',
+              cursor: 'pointer',
+              color: '#333',
+              boxShadow: '0 12px 30px rgba(132, 250, 176, 0.4)',
+              textAlign: 'center',
+              fontWeight: '900',
+              fontSize: '1.3rem'
+            }}
+          >
+            <div style={{ fontSize: '3.5rem', marginBottom: '15px' }}>🪙🛒</div>
+            Money Learning
+          </motion.div>
 
         </div>
 
-      </div>
+        {/* ================= SECONDARY ACTIONS - ENHANCED VISIBILITY ================= */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px', alignItems: 'center' }}>
+          
+          <div style={{ display: 'flex', gap: '20px', width: '100%', maxWidth: '800px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <motion.button
+              whileHover={{ scale: 1.05, background: 'rgba(79, 172, 254, 0.2)' }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setPage("activity")}
+              style={{ 
+                flex: 1,
+                minWidth: '350px',
+                background: 'rgba(255, 255, 255, 0.1)', 
+                border: '3px solid #4facfe', 
+                fontWeight: '900', 
+                color: 'var(--text-primary)',
+                borderRadius: '24px',
+                padding: '22px',
+                fontSize: '1.2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '15px',
+                boxShadow: '0 8px 30px rgba(79, 172, 254, 0.15)',
+                cursor: 'pointer'
+              }}
+            >
+              📊 Manage Daily Habits
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05, background: 'rgba(79, 172, 254, 0.2)' }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setPage("product")}
+              style={{ 
+                flex: 1,
+                minWidth: '350px',
+                background: 'rgba(255, 255, 255, 0.1)', 
+                border: '3px solid #4facfe', 
+                fontWeight: '900', 
+                color: 'var(--text-primary)',
+                borderRadius: '24px',
+                padding: '22px',
+                fontSize: '1.2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '15px',
+                boxShadow: '0 8px 30px rgba(79, 172, 254, 0.15)',
+                cursor: 'pointer'
+              }}
+            >
+              📋 Project Methodology
+            </motion.button>
+          </div>
+
+          <motion.button
+             whileHover={{ scale: 1.1, color: '#f87171' }}
+             whileTap={{ scale: 0.9 }}
+             onClick={() => {
+               localStorage.removeItem("token");
+               window.location.reload();
+             }}
+             style={{ 
+               color: '#ef4444', 
+               fontWeight: '900', 
+               background: 'transparent', 
+               border: 'none', 
+               marginTop: '20px', 
+               cursor: 'pointer',
+               fontSize: '1.1rem',
+               padding: '10px 30px'
+             }}
+          >
+            🚪 Logout Securely
+          </motion.button>
+        </div>
+
+      </motion.div>
     </div>
   );
 }

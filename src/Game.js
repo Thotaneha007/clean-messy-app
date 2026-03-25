@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import html2canvas from "html2canvas";
+import { motion } from "framer-motion";
 
 /* Import images */
 import cleanRoom from "./assets/images/01_clean_room.jpg";
@@ -129,56 +130,127 @@ function Game({ setPage }) {
   return (
     <div className="container">
       <div className="card" ref={cardRef}>
-
-        <h2>Sorting Game</h2>
-
-        <p className="subtitle">
-          Press C for Clean | M for Messy
-        </p>
-
-        <img
-          src={items[index].image}
-          alt="sorting task"
-          className="item-image"
-        />
-
-        <p className="item-text">
-          {items[index].text}
-        </p>
-
-        <div className="buttons">
+        
+        {/* BACK BUTTON */}
+        <div className="top-nav">
           <button
-            className="clean-btn"
-            onClick={() => choose("clean")}
+            className="back-btn"
+            onClick={() => setPage("home")}
           >
-            Clean (C)
-          </button>
-
-          <button
-            className="messy-btn"
-            onClick={() => choose("messy")}
-          >
-            Messy (M)
+            ← Back to Home
           </button>
         </div>
 
-        {message && <div className="result-feedback">{message}</div>}
-
-        <p className="subtitle">
-          Question {index + 1} of {totalQuestions}
+        <h2 style={{ fontSize: '2.5rem', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '10px' }}>Sorting Game</h2>
+        <p className="subtitle" style={{ fontSize: '1.1rem', marginBottom: '25px', opacity: 0.8 }}>
+          Press C for Clean | M for Messy
         </p>
 
-        <p className="calm-text">
-          Correct: {correct} | Wrong: {wrong}
+        {/* IMAGE CARD */}
+        <div style={{ position: 'relative', width: '100%', maxWidth: '650px', margin: '0 auto' }}>
+          <img
+            src={items[index].image}
+            alt="sorting task"
+            style={{ 
+              borderRadius: '35px', 
+              border: '4px solid var(--border-color)', 
+              width: '100%', 
+              display: 'block',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.2)'
+            }}
+          />
+          
+          {message && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1.1 }}
+              style={{
+                position: 'absolute',
+                top: '40%',
+                left: '20%',
+                right: '20%',
+                padding: '20px',
+                borderRadius: '20px',
+                background: message.includes('✅') ? '#00b894' : '#ef4444',
+                color: 'white',
+                fontSize: '1.8rem',
+                fontWeight: '900',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                textAlign: 'center',
+                zIndex: 10
+              }}
+            >
+              {message}
+            </motion.div>
+          )}
+        </div>
+
+        {/* ITEM DESCRIPTION */}
+        <p style={{ fontSize: '2.2rem', fontWeight: '900', color: 'var(--text-primary)', margin: '30px 0', textAlign: 'center' }}>
+          {items[index].text}
         </p>
 
-        {loading && (
-          <p className="calm-text">Saving session...</p>
-        )}
+        {/* BIG ACTION BUTTONS */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', width: '100%', maxWidth: '600px', margin: '0 auto 30px auto' }}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => choose("clean")}
+            style={{ 
+              padding: '25px', 
+              borderRadius: '25px', 
+              border: '4px solid #00b894', 
+              background: 'rgba(0, 184, 148, 0.1)', 
+              color: '#00b894', 
+              fontWeight: '900', 
+              fontSize: '1.6rem',
+              cursor: 'pointer',
+              boxShadow: '0 10px 30px rgba(0, 184, 148, 0.2)'
+            }}
+          >
+            ✨ Clean (C)
+          </motion.button>
 
-        <div className="center-btn">
-          <button className="secondary-btn" onClick={captureScreen}>
-            📸 Capture Screen
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => choose("messy")}
+            style={{ 
+              padding: '25px', 
+              borderRadius: '25px', 
+              border: '4px solid #ff7675', 
+              background: 'rgba(255, 118, 117, 0.1)', 
+              color: '#ff7675', 
+              fontWeight: '900', 
+              fontSize: '1.6rem',
+              cursor: 'pointer',
+              boxShadow: '0 10px 30px rgba(255, 118, 117, 0.2)'
+            }}
+          >
+            🌪️ Messy (M)
+          </motion.button>
+        </div>
+
+        {/* PROGRESS & STATS */}
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          gap: '30px', 
+          padding: '20px 40px', 
+          background: 'rgba(255, 255, 255, 0.05)', 
+          borderRadius: '50px', 
+          border: '2px solid var(--border-color)',
+          fontWeight: '900',
+          fontSize: '1.2rem'
+        }}>
+          <span style={{ color: 'var(--text-secondary)' }}>Question {index + 1} of {totalQuestions}</span>
+          <span style={{ color: '#00b894' }}>✅ {correct}</span>
+          <span style={{ color: '#ff7675' }}>❌ {wrong}</span>
+        </div>
+
+        <div style={{ marginTop: '40px' }}>
+          <button className="secondary-btn" onClick={captureScreen} style={{ padding: '15px 35px', borderRadius: '50px', fontWeight: '900', letterSpacing: '1px' }}>
+            📸 Save Progress Screenshot
           </button>
         </div>
 

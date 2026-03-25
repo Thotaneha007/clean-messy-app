@@ -1,47 +1,48 @@
 import React from "react";
 
-function AboutHabits({ setPage }) {
+function AboutMoney({ setPage }) {
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '30px 20px' }}>
       
       {/* HEADER */}
       <div style={{ textAlign: 'center', marginBottom: '35px' }}>
         <div style={{ marginBottom: '15px' }}>
-          <button onClick={() => setPage("home")} style={{ padding: '10px 25px', borderRadius: '50px', fontWeight: '900', border: '3px solid var(--border-color)', background: 'var(--card-bg)', color: 'var(--text-primary)', cursor: 'pointer' }}>
-            ← Back to Clean & Messy
+          <button onClick={() => setPage("money")} style={{ padding: '10px 25px', borderRadius: '50px', fontWeight: '900', border: '3px solid var(--border-color)', background: 'var(--card-bg)', color: 'var(--text-primary)', cursor: 'pointer' }}>
+            ← Back to Money Learning
           </button>
         </div>
-        <h2 style={{ fontSize: '2.2rem', margin: '0 0 8px 0', background: 'linear-gradient(90deg, #667eea, #764ba2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: '900' }}>
-          About — Clean & Messy Module
+        <h2 style={{ fontSize: '2.2rem', margin: '0 0 8px 0', background: 'linear-gradient(90deg, #f6d365, #fda085)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: '900' }}>
+          About — Money Mastery Module
         </h2>
         <p style={{ color: 'var(--text-secondary)', fontWeight: 'bold', margin: 0, fontSize: '1.05rem' }}>
-          A visual sorting activity for children with Autism Spectrum Disorder
+          An interactive currency recognition activity for children with ASD
         </p>
       </div>
 
       {/* DESCRIPTION */}
       <div style={{ background: 'var(--card-bg)', padding: '30px', borderRadius: '24px', border: '2px solid var(--border-color)', marginBottom: '20px' }}>
-        <h3 style={{ margin: '0 0 12px 0', color: '#667eea', fontSize: '1.2rem' }}>🎯 What is this Module?</h3>
+        <h3 style={{ margin: '0 0 12px 0', color: '#f6d365', fontSize: '1.2rem' }}>🎯 What is this Module?</h3>
         <p style={{ lineHeight: '1.8', color: 'var(--text-primary)', margin: 0 }}>
-          The Clean or Messy Sorting Game helps children recognize the difference between clean and messy environments 
-          through high-contrast images and interactive classification. Children first <strong>learn</strong> by studying visual 
-          comparisons, then <strong>practice</strong> by sorting real-world situations. The module uses calm colors, predictable 
-          layouts, and keyboard shortcuts (C for Clean, M for Messy) to reduce sensory overload.
+          The Money Mastery module teaches children to recognize and add Indian currency coins (₹1, ₹2, ₹5, ₹10). 
+          Children are presented with <strong>shopping scenarios</strong> where they must select the correct combination 
+          of coins to match a target price. The module builds <strong>mathematical confidence</strong> through repetitive, 
+          low-pressure practice with immediate visual feedback. Each session tracks accuracy and saves progress to help 
+          parents and teachers monitor improvement over time.
         </p>
       </div>
 
       {/* 2-COLUMN: APPROACH */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-        <div style={{ background: 'var(--card-bg)', padding: '25px', borderRadius: '24px', border: '2px solid #667eea' }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#667eea', fontSize: '1.1rem' }}>🧩 Visual Structuring</h3>
+        <div style={{ background: 'var(--card-bg)', padding: '25px', borderRadius: '24px', border: '2px solid #f6d365' }}>
+          <h3 style={{ margin: '0 0 10px 0', color: '#f6d365', fontSize: '1.1rem' }}>🧮 Concrete Learning</h3>
           <p style={{ lineHeight: '1.7', color: 'var(--text-primary)', margin: 0, fontSize: '0.95rem' }}>
-            High-contrast visual cues and consistent layouts reduce cognitive load, letting the child focus purely on the task.
+            Visual coin representations with realistic styling help children connect abstract values to tangible objects they encounter daily.
           </p>
         </div>
-        <div style={{ background: 'var(--card-bg)', padding: '25px', borderRadius: '24px', border: '2px solid #6ee7b7' }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#6ee7b7', fontSize: '1.1rem' }}>🏆 Positive Reinforcement</h3>
+        <div style={{ background: 'var(--card-bg)', padding: '25px', borderRadius: '24px', border: '2px solid #fda085' }}>
+          <h3 style={{ margin: '0 0 10px 0', color: '#fda085', fontSize: '1.1rem' }}>🛒 Real-World Context</h3>
           <p style={{ lineHeight: '1.7', color: 'var(--text-primary)', margin: 0, fontSize: '0.95rem' }}>
-            Celebratory feedback on each answer builds confidence and encourages repeat engagement without pressure.
+            Shopping-based scenarios provide practical context, making the learning transferable to real-life situations like buying snacks or toys.
           </p>
         </div>
       </div>
@@ -51,12 +52,12 @@ function AboutHabits({ setPage }) {
         <h3 style={{ margin: '0 0 15px 0', color: 'var(--text-primary)', fontSize: '1.1rem' }}>📋 Learning Flow</h3>
         <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
           {[
-            { num: "1", label: "Learn", desc: "View clean vs messy images" },
-            { num: "2", label: "Practice", desc: "Sort 8 real-world scenarios" },
-            { num: "3", label: "Track", desc: "Record daily habits via form" }
+            { num: "1", label: "Recognize", desc: "Learn coin values (₹1–₹10)" },
+            { num: "2", label: "Calculate", desc: "Match coins to target prices" },
+            { num: "3", label: "Review", desc: "View accuracy and progress" }
           ].map((s, i) => (
             <div key={i} style={{ flex: '1', minWidth: '150px', display: 'flex', alignItems: 'center', gap: '12px', padding: '15px', borderRadius: '16px', border: '1.5px solid var(--border-color)', background: 'rgba(255,255,255,0.03)' }}>
-              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#667eea', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', flexShrink: 0 }}>{s.num}</div>
+              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #f6d365, #fda085)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', flexShrink: 0 }}>{s.num}</div>
               <div>
                 <div style={{ fontWeight: '900', color: 'var(--text-primary)' }}>{s.label}</div>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{s.desc}</div>
@@ -80,4 +81,4 @@ function AboutHabits({ setPage }) {
   );
 }
 
-export default AboutHabits;
+export default AboutMoney;

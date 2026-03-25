@@ -14,6 +14,7 @@ import MoneyHome from "./lab2/MoneyHome";
 import Challenge from "./lab2/Challenge";
 import Progress from "./lab2/Progress";
 import ProductDetails from "./lab2/ProductDetails";
+import AboutMoney from "./lab2/AboutMoney";
 
 /* ===== Activity CRUD Form ===== */
 import ActivityForm from "./ActivityForm";
@@ -21,6 +22,12 @@ import ActivityForm from "./ActivityForm";
 /* ===== Login ===== */
 import Login from "./Login";
 import Dashboard from "./Dashboard";
+
+import { AnimatePresence } from "framer-motion";
+import PageWrapper from "./PageWrapper";
+import FloatingBubbles from "./FloatingBubbles";
+import { useThemeContext } from "./ThemeContext";
+import { Sun, Moon, LogOut } from "lucide-react";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,66 +56,123 @@ function App() {
     setPage("dashboard");
   }
 
+  const { theme, toggleTheme } = useThemeContext();
+
   return (
-    <>
-      {/* LOGIN */}
-      {page === "login" && (
-        <Login onLoginSuccess={handleLoginSuccess} />
-      )}
+    <div className={`app-shell ${theme}`}>
+      {page !== "login" && <FloatingBubbles />}
+      {/* GLOBAL APP BAR */}
+      <div className="top-app-bar">
+        <div className="logo-section">
+          <h2>🎯 Autism Learning Portal</h2>
+        </div>
+        <div className="actions-section">
+          <button className="icon-btn" onClick={toggleTheme}>
+            {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+          </button>
+          {isLoggedIn && (
+            <button
+              className="icon-btn logout"
+              onClick={() => {
+                localStorage.removeItem("token");
+                setIsLoggedIn(false);
+                setPage("login");
+              }}
+            >
+              <LogOut size={20} />
+            </button>
+          )}
+        </div>
+      </div>
 
-      {/* DASHBOARD */}
-      {isLoggedIn && page === "dashboard" && (
-        <Dashboard setPage={navigateTo} />
-      )}
+      <div className="app-content">
+        <AnimatePresence mode="wait">
+          {page === "login" && (
+            <PageWrapper key="login">
+              <Login onLoginSuccess={handleLoginSuccess} />
+            </PageWrapper>
+          )}
 
-      {/* ACTIVITY FORM */}
-      {isLoggedIn && page === "activity" && (
-        <ActivityForm setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "dashboard" && (
+            <PageWrapper key="dashboard">
+              <Dashboard setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {/* CLEAN & MESSY */}
-      {isLoggedIn && page === "home" && (
-        <Home setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "activity" && (
+            <PageWrapper key="activity">
+              <ActivityForm setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {isLoggedIn && page === "learn" && (
-        <Learn setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "home" && (
+            <PageWrapper key="home">
+              <Home setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {isLoggedIn && page === "game" && (
-        <Game setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "learn" && (
+            <PageWrapper key="learn">
+              <Learn setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {isLoggedIn && page === "result" && (
-        <Result resultData={pageData} setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "game" && (
+            <PageWrapper key="game">
+              <Game setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {isLoggedIn && page === "habit" && (
-        <HabitForm setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "result" && (
+            <PageWrapper key="result">
+              <Result resultData={pageData} setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {isLoggedIn && page === "about" && (
-        <AboutHabits setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "habit" && (
+            <PageWrapper key="habit">
+              <HabitForm setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {/* MONEY */}
-      {isLoggedIn && page === "money" && (
-        <MoneyHome setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "about" && (
+            <PageWrapper key="about">
+              <AboutHabits setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {isLoggedIn && page === "challenge" && (
-        <Challenge setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "money" && (
+            <PageWrapper key="money">
+              <MoneyHome setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {isLoggedIn && page === "moneyResult" && (
-        <Progress resultData={pageData} setPage={navigateTo} />
-      )}
+          {isLoggedIn && page === "challenge" && (
+            <PageWrapper key="challenge">
+              <Challenge setPage={navigateTo} />
+            </PageWrapper>
+          )}
 
-      {/* PRODUCT */}
-      {isLoggedIn && page === "product" && (
-        <ProductDetails setPage={navigateTo} />
-      )}
-    </>
+          {isLoggedIn && page === "moneyResult" && (
+            <PageWrapper key="moneyResult">
+              <Progress resultData={pageData} setPage={navigateTo} />
+            </PageWrapper>
+          )}
+
+          {isLoggedIn && page === "product" && (
+            <PageWrapper key="product">
+              <ProductDetails setPage={navigateTo} />
+            </PageWrapper>
+          )}
+
+          {isLoggedIn && page === "aboutMoney" && (
+            <PageWrapper key="aboutMoney">
+              <AboutMoney setPage={navigateTo} />
+            </PageWrapper>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 

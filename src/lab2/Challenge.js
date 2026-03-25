@@ -128,68 +128,128 @@ function Challenge({ setPage }) {
 
   /* ================= UI ================= */
   return (
-    <div className="money-container">
-      <div className="money-card" ref={cardRef}>
-
-        <h2>Money Challenge</h2>
-
-        <p>Question {questionCount} / {totalQuestions}</p>
-
-        <div className="target-box">
-          Make ₹{target}
-        </div>
-
-        <div className="total-box">
-          Current Total: ₹{total}
-        </div>
-
-        <div className="coin-grid">
-          <div className="coin" onClick={() => addCoin(1)}>₹1</div>
-          <div className="coin" onClick={() => addCoin(2)}>₹2</div>
-          <div className="coin" onClick={() => addCoin(5)}>₹5</div>
-          <div className="coin" onClick={() => addCoin(10)}>₹10</div>
-        </div>
-
-        <div className="action-row">
-          <button className="primary-btn" onClick={checkAnswer}>
-            Check (Enter)
-          </button>
-
-          <button className="secondary-btn" onClick={resetTotal}>
-            Reset (R)
-          </button>
-        </div>
-
-        {feedback === "correct" && (
-          <div className="success-box">
-            ✅ Correct!
-          </div>
-        )}
-
-        {feedback === "wrong" && (
-          <div className="error-box">
-            ❌ That’s okay. Try the next one.
-          </div>
-        )}
-
-        <p style={{ marginTop: "10px" }}>
-          Correct: {correct} | Wrong: {wrong}
-        </p>
-
-        <div className="action-row">
-          <button className="secondary-btn" onClick={captureScreen}>
-            📸 Capture Screen
-          </button>
-        </div>
-
-        <div className="center-btn">
+    <div className="container">
+      <div className="card" ref={cardRef} style={{ padding: '40px', borderRadius: '32px' }}>
+        
+        {/* BACK BUTTON */}
+        <div className="top-nav">
           <button
             className="back-btn"
-            onClick={() => setPage("dashboard")}
+            onClick={() => setPage("money")}
+            style={{ padding: '10px 20px', borderRadius: '15px' }}
           >
-            Back to Dashboard
+            ← Back to Money Home
           </button>
         </div>
+
+        {/* HEADER */}
+        <div style={{ textAlign: 'center', marginBottom: '25px' }}>
+          <h2 style={{ fontSize: '1.8rem', background: 'linear-gradient(90deg, #f6d365, #fda085)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }}>
+            Money Challenge
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>Question {questionCount} of {totalQuestions}</p>
+        </div>
+
+        {/* TARGET BOX */}
+        <div style={{ 
+          background: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)', 
+          padding: '30px', 
+          borderRadius: '24px', 
+          textAlign: 'center', 
+          boxShadow: '0 10px 25px rgba(253, 160, 133, 0.3)',
+          marginBottom: '25px'
+        }}>
+          <div style={{ fontSize: '1.2rem', color: '#635100', fontWeight: '800', opacity: 0.8 }}>PLEASE MAKE</div>
+          <div style={{ fontSize: '4.5rem', fontWeight: '900', color: '#2d3436', textShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>₹{target}</div>
+        </div>
+
+        {/* CURRENT TOTAL */}
+        <div style={{ 
+          background: 'rgba(255, 255, 255, 0.08)', 
+          padding: '15px', 
+          borderRadius: '15px', 
+          textAlign: 'center', 
+          fontSize: '1.3rem', 
+          fontWeight: '900',
+          marginBottom: '25px',
+          border: '2px solid var(--border-color)',
+          color: total === target ? '#00b894' : 'var(--text-primary)',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
+        }}>
+          Current Total: ₹{total} {total > target && "⚠️"}
+        </div>
+
+        {/* COIN GRID */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '15px', marginBottom: '30px' }}>
+          {[1, 2, 5, 10].map(val => (
+            <button
+              key={val}
+              onClick={() => addCoin(val)}
+              className="coin-btn-interactive"
+              style={{
+                aspectRatio: '1/1',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #ffeaa7, #fdcb6e)',
+                border: 'none',
+                fontSize: '1.2rem',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                boxShadow: '0 5px 0 #d4a017, 0 10px 20px rgba(0,0,0,0.1)',
+                transition: '0.1s'
+              }}
+            >
+              ₹{val}
+            </button>
+          ))}
+        </div>
+
+        {/* ACTIONS */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' }}>
+          <button 
+            className="primary-btn" 
+            onClick={checkAnswer}
+            style={{ padding: '15px', borderRadius: '15px', background: 'linear-gradient(90deg, #4facfe, #00f2fe)', fontWeight: 'bold' }}
+          >
+            Check Answer
+          </button>
+
+          <button 
+            className="secondary-btn" 
+            onClick={resetTotal}
+            style={{ padding: '15px', borderRadius: '15px', fontWeight: 'bold' }}
+          >
+            Clear All
+          </button>
+        </div>
+
+        {/* FEEDBACK */}
+        {feedback && (
+          <div style={{ 
+            padding: '15px', 
+            borderRadius: '15px', 
+            textAlign: 'center', 
+            fontWeight: 'bold',
+            background: feedback === 'correct' ? '#e1fcf2' : '#fde2e2',
+            color: feedback === 'correct' ? '#00b894' : '#ef4444',
+            marginBottom: '15px'
+          }}>
+            {feedback === "correct" ? "✨ Brilliant! That's correct!" : "💡 Almost there! Try again."}
+          </div>
+        )}
+
+        {/* PROGRESS STATS */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+          <span>✅ Correct: {correct}</span>
+          <span>❌ Missed: {wrong}</span>
+        </div>
+
+        <button 
+          className="secondary-btn" 
+          onClick={captureScreen}
+          style={{ width: '100%', padding: '12px', borderRadius: '120px', opacity: 0.7, fontSize: '0.85rem' }}
+        >
+          📸 Save Progress to Word Doc (Screenshot)
+        </button>
 
       </div>
     </div>

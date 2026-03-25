@@ -5,6 +5,16 @@ function Learn({ setPage }) {
   return (
     <div className="container">
       <div className="card">
+        {/* BACK BUTTON */}
+        <div className="top-nav">
+          <button
+            className="back-btn"
+            onClick={() => setPage("home")}
+          >
+            ← Back to Activity Home
+          </button>
+        </div>
+
         <h2>Learn: Clean and Messy</h2>
 
         <p className="subtitle">

@@ -80,51 +80,57 @@ function Login({ onLoginSuccess }) {
 
   /* ================= UI ================= */
   return (
-    <div className="container">
-      <div className="card login-card">
+    <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="card login-card" style={{ maxWidth: '450px', border: '1px solid rgba(255,255,255,0.3)', background: 'var(--card-bg)' }}>
 
-        <h2>{isLogin ? "Welcome Back" : "Create Account"}</h2>
-
-        <p className="subtitle">
-          {isLogin
-            ? "Login to access the learning portal"
-            : "Register to begin structured learning activities"}
-        </p>
+        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+          <h2 style={{ fontSize: '2rem', marginBottom: '8px', color: 'var(--text-primary)' }}>
+            {isLogin ? "Welcome Back" : "Create Account"}
+          </h2>
+          <p className="subtitle">
+            {isLogin
+              ? "Login to access your learning portal"
+              : "Register to begin your journey"}
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit} className="login-form">
 
           {!isLogin && (
-            <div className="form-group">
-              <label>Full Name</label>
+            <div className="form-group" style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600' }}>Full Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your full name"
                 required
+                style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'rgba(255,255,255,0.05)' }}
               />
             </div>
           )}
 
-          <div className="form-group">
-            <label>Email Address</label>
+          <div className="form-group" style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600' }}>Email Address</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
+              style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'rgba(255,255,255,0.05)' }}
             />
           </div>
 
-          <div className="form-group">
-            <label>Password</label>
+          <div className="form-group" style={{ marginBottom: '25px' }}>
+            <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600' }}>Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
+              style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'rgba(255,255,255,0.05)' }}
             />
           </div>
 
@@ -132,39 +138,65 @@ function Login({ onLoginSuccess }) {
             type="submit"
             className="primary-btn"
             disabled={loading}
+            style={{ width: '100%', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: 'bold', background: 'linear-gradient(90deg, #4facfe, #00f2fe)', border: 'none', color: 'white', boxShadow: '0 4px 15px rgba(79, 172, 254, 0.4)' }}
           >
             {loading
-              ? "Please wait..."
+              ? "Authenticating..."
               : isLogin
-              ? "Login"
-              : "Register"}
+              ? "Sign In"
+              : "Sign Up"}
           </button>
         </form>
 
         {/* ================= FEEDBACK ================= */}
         {message && (
-          <div className={isError ? "error-message" : "success-message"}>
+          <div className={isError ? "error-message" : "success-message"} style={{ marginTop: '15px', padding: '10px', borderRadius: '8px', textAlign: 'center' }}>
             {message}
           </div>
         )}
 
         {/* ================= SWITCH MODE ================= */}
-        <div className="login-switch">
-          <p>
+        <div className="login-switch" style={{ marginTop: '25px', textAlign: 'center' }}>
+          <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
             {isLogin
               ? "Don't have an account?"
               : "Already have an account?"}
+            <button
+              type="button"
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setMessage("");
+                setIsError(false);
+              }}
+              style={{ background: 'none', border: 'none', color: '#4facfe', fontWeight: 'bold', cursor: 'pointer', marginLeft: '5px', textDecoration: 'underline' }}
+            >
+              {isLogin ? "Register now" : "Login here"}
+            </button>
           </p>
+        </div>
 
+        {/* ================= PLAY AS GUEST ================= */}
+        <div className="login-switch" style={{ marginTop: '20px', paddingTop: '20px', borderTop: '1px solid var(--border-color)', textAlign: 'center' }}>
           <button
-            className="secondary-btn"
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setMessage("");
-              setIsError(false);
+            type="button"
+            onClick={() => onLoginSuccess()}
+            style={{ 
+              background: 'rgba(255,255,255,0.05)', 
+              border: '2px dashed var(--border-color)', 
+              color: 'var(--text-primary)',
+              padding: '12px 20px',
+              borderRadius: '12px',
+              width: '100%',
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px'
             }}
           >
-            {isLogin ? "Register Here" : "Login Here"}
+            🕹️ Quick Access: Play as Guest
           </button>
         </div>
 
