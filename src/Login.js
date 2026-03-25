@@ -138,7 +138,7 @@ function Login({ onLoginSuccess }) {
             type="submit"
             className="primary-btn"
             disabled={loading}
-            style={{ width: '100%', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: 'bold', background: 'linear-gradient(90deg, #4facfe, #00f2fe)', border: 'none', color: 'white', boxShadow: '0 4px 15px rgba(79, 172, 254, 0.4)' }}
+            style={{ width: '100%', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: 'bold', background: 'linear-gradient(90deg, #4facfe, #00f2fe)', border: 'none', color: 'white', boxShadow: '0 4px 15px rgba(79, 172, 254, 0.4)', marginBottom: '15px' }}
           >
             {loading
               ? "Authenticating..."
@@ -146,7 +146,19 @@ function Login({ onLoginSuccess }) {
               ? "Sign In"
               : "Sign Up"}
           </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              localStorage.setItem("token", "guest_sample_token");
+              onLoginSuccess();
+            }}
+            style={{ width: '100%', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: '900', background: 'rgba(255,255,255,0.08)', border: '2px dashed #4facfe', color: 'var(--text-primary)', cursor: 'pointer' }}
+          >
+            🌟 Try as Guest (Evaluation Mode)
+          </button>
         </form>
+
 
         {/* ================= FEEDBACK ================= */}
         {message && (
