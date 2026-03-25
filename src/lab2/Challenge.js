@@ -94,11 +94,14 @@ function Challenge({ setPage }) {
         const finalCorrect = isCorrect ? correct + 1 : correct;
         const finalWrong = isCorrect ? wrong : wrong + 1;
 
-        await saveSession(finalCorrect, finalWrong);
-
         const accuracy = Math.round(
           (finalCorrect / totalQuestions) * 100
         );
+
+        // SAVE REAL SESSION ACCURACY FOR DASHBOARD
+        localStorage.setItem("money_accuracy", accuracy);
+
+        await saveSession(finalCorrect, finalWrong);
 
         setPage("moneyResult", {
           correct: finalCorrect,

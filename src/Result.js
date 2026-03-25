@@ -19,6 +19,9 @@ function Result({ setPage, resultData }) {
 
   const { correct, wrong, totalQuestions, accuracy } = resultData;
 
+  // SAVE REAL SESSION ACCURACY FOR DASHBOARD
+  localStorage.setItem("clean_messy_accuracy", accuracy);
+
   /* ================= STAR CALCULATION ================= */
   let stars = 1;
   if (accuracy >= 90) stars = 3;

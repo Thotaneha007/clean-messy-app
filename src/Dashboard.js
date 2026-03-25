@@ -11,12 +11,15 @@ function Dashboard({ setPage }) {
     async function fetchData() {
       const token = localStorage.getItem("token");
 
-      // FOR GUEST EVALUATORS: Show Mock Data if no real backend or guest token
+      // FOR GUESTS: NO MOCK DATA. FETCH REAL SCORES IF SESSION EXISTS.
       if (!token || token === "guest_token") {
+        const cleanAcc = localStorage.getItem("clean_messy_accuracy");
+        const moneyAcc = localStorage.getItem("money_accuracy");
+
         setUserData({
-          cleanMessy: { totalAttempts: 12, bestAccuracy: 95, badge: "Master" },
-          moneyGame: { totalAttempts: 8, bestAccuracy: 88, badge: "Expert" },
-          streak: { currentStreak: 5, longestStreak: 7 }
+          cleanMessy: { totalAttempts: cleanAcc ? 1 : 0, bestAccuracy: cleanAcc ? parseInt(cleanAcc) : 0, badge: cleanAcc ? "Learner" : "None" },
+          moneyGame: { totalAttempts: moneyAcc ? 1 : 0, bestAccuracy: moneyAcc ? parseInt(moneyAcc) : 0, badge: moneyAcc ? "Expert" : "None" },
+          streak: { currentStreak: 0, longestStreak: 0 }
         });
         setLoading(false);
         return;
@@ -35,11 +38,11 @@ function Dashboard({ setPage }) {
         }
 
       } catch (err) {
-        // Fallback to guest data on local error for ease of use
+        // CLEAN UP FALLBACK
         setUserData({
-          cleanMessy: { totalAttempts: 12, bestAccuracy: 95, badge: "Master" },
-          moneyGame: { totalAttempts: 8, bestAccuracy: 88, badge: "Expert" },
-          streak: { currentStreak: 5, longestStreak: 7 }
+          cleanMessy: { totalAttempts: 0, bestAccuracy: 0, badge: "None" },
+          moneyGame: { totalAttempts: 0, bestAccuracy: 0, badge: "None" },
+          streak: { currentStreak: 0, longestStreak: 0 }
         });
       }
 
@@ -83,6 +86,9 @@ function Dashboard({ setPage }) {
     show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
   };
 
+  // FETCH LATEST SESSION SCORE FROM LOCAL STORAGE
+  const lastSessionScore = localStorage.getItem("last_accuracy");
+
   return (
     <div className="container" style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
       <motion.div 
@@ -104,8 +110,13 @@ function Dashboard({ setPage }) {
             marginBottom: '10px',
             fontWeight: '900'
           }}>
-            Autism Learning Portal
+            Welcome Back, {userData?.name || "Guest"}!
           </h1>
+          {lastSessionScore && (
+            <p style={{ fontSize: '1.2rem', color: '#4facfe', fontWeight: '900', margin: '0 0 10px 0' }}>
+              🎯 Correctness Score: {lastSessionScore}%
+            </p>
+          )}
           <p className="subtitle" style={{ fontSize: '1.1rem', margin: '0 auto', color: 'var(--text-secondary)', fontWeight: 'bold', maxWidth: '500px' }}>
             Structured visual growth and child-centric progress tracking.
           </p>

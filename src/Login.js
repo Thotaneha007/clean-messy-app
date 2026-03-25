@@ -148,69 +148,28 @@ function Login({ onLoginSuccess }) {
           </button>
         </form>
 
+
+        {/* ================= GUEST ACCESS — SINGLE BUTTON ================= */}
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
           <button 
             onClick={() => {
               localStorage.setItem("token", "guest_token");
               onLoginSuccess();
             }}
-            style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.9rem', textDecoration: 'underline' }}
-          >
-            Continue as Guest
-          </button>
-        </div>
-
-
-
-        {/* ================= FEEDBACK ================= */}
-        {message && (
-          <div className={isError ? "error-message" : "success-message"} style={{ marginTop: '15px', padding: '10px', borderRadius: '8px', textAlign: 'center' }}>
-            {message}
-          </div>
-        )}
-
-        {/* ================= SWITCH MODE ================= */}
-        <div className="login-switch" style={{ marginTop: '25px', textAlign: 'center' }}>
-          <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-            {isLogin
-              ? "Don't have an account?"
-              : "Already have an account?"}
-            <button
-              type="button"
-              onClick={() => {
-                setIsLogin(!isLogin);
-                setMessage("");
-                setIsError(false);
-              }}
-              style={{ background: 'none', border: 'none', color: '#4facfe', fontWeight: 'bold', cursor: 'pointer', marginLeft: '5px', textDecoration: 'underline' }}
-            >
-              {isLogin ? "Register now" : "Login here"}
-            </button>
-          </p>
-        </div>
-
-        {/* ================= PLAY AS GUEST ================= */}
-        <div className="login-switch" style={{ marginTop: '20px', paddingTop: '20px', borderTop: '1px solid var(--border-color)', textAlign: 'center' }}>
-          <button
-            type="button"
-            onClick={() => onLoginSuccess()}
             style={{ 
+              padding: '12px', 
+              borderRadius: '12px', 
               background: 'rgba(255,255,255,0.05)', 
-              border: '2px dashed var(--border-color)', 
-              color: 'var(--text-primary)',
-              padding: '12px 20px',
-              borderRadius: '12px',
+              border: '1.5px solid var(--border-color)', 
+              color: 'var(--text-primary)', 
+              cursor: 'pointer', 
+              fontSize: '1rem', 
+              fontWeight: '600', 
               width: '100%',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px'
+              transition: 'all 0.3s ease'
             }}
           >
-            🕹️ Quick Access: Play as Guest
+            Continue as Guest
           </button>
         </div>
 
