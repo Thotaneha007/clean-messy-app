@@ -12,7 +12,7 @@ function Dashboard({ setPage }) {
       const token = localStorage.getItem("token");
 
       // FOR GUEST EVALUATORS: Show Mock Data if no real backend or guest token
-      if (!token || token === "guest_sample_token") {
+      if (!token || token === "guest_token") {
         setUserData({
           cleanMessy: { totalAttempts: 12, bestAccuracy: 95, badge: "Master" },
           moneyGame: { totalAttempts: 8, bestAccuracy: 88, badge: "Expert" },

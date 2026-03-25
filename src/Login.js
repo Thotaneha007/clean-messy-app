@@ -138,7 +138,7 @@ function Login({ onLoginSuccess }) {
             type="submit"
             className="primary-btn"
             disabled={loading}
-            style={{ width: '100%', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: 'bold', background: 'linear-gradient(90deg, #4facfe, #00f2fe)', border: 'none', color: 'white', boxShadow: '0 4px 15px rgba(79, 172, 254, 0.4)', marginBottom: '15px' }}
+            style={{ width: '100%', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: 'bold', background: 'linear-gradient(90deg, #4facfe, #00f2fe)', border: 'none', color: 'white', boxShadow: '0 4px 15px rgba(79, 172, 254, 0.4)' }}
           >
             {loading
               ? "Authenticating..."
@@ -146,18 +146,20 @@ function Login({ onLoginSuccess }) {
               ? "Sign In"
               : "Sign Up"}
           </button>
+        </form>
 
-          <button
-            type="button"
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <button 
             onClick={() => {
-              localStorage.setItem("token", "guest_sample_token");
+              localStorage.setItem("token", "guest_token");
               onLoginSuccess();
             }}
-            style={{ width: '100%', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: '900', background: 'rgba(255,255,255,0.08)', border: '2px dashed #4facfe', color: 'var(--text-primary)', cursor: 'pointer' }}
+            style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.9rem', textDecoration: 'underline' }}
           >
-            🌟 Try as Guest (Evaluation Mode)
+            Continue as Guest
           </button>
-        </form>
+        </div>
+
 
 
         {/* ================= FEEDBACK ================= */}
